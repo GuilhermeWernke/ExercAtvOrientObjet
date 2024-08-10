@@ -1,6 +1,6 @@
 <?php
 
-    $contagem = 0;
+    $contagem = 0; 
     $opcao = 0;
 
     while(is_integer($opcao) and !($opcao >= 1 and $opcao <=3))
