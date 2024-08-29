@@ -16,7 +16,7 @@
 
             $this->nome = $n;
             $this->endereco = $e;
-            $this->quant_alunos = $q;
+            $this->quant_alunos = $q; 
             
         }
 
