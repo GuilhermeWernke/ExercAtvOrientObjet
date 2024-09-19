@@ -5,8 +5,8 @@
 
         // Atributos
 
-        private string $nome;
-        private float $numero;
+        private string $nome; // nome da carta ex "Ás Copas"
+        private int $numero; // indice
 
 
         // GETS & SETS
@@ -32,7 +32,7 @@
         /**
          * Get the value of numero
          */
-        public function getNumero(): float
+        public function getNumero(): int
         {
                 return $this->numero;
         }
@@ -49,15 +49,81 @@
 
     }
 
-    $baralho = 
+
+
+
+
+    $baralho_nome = 
     [
 
-        "Paus"    => array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",),
-        "Copas"   => array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",),
-        "Espadas" => array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",),
-        "Ouro"    => array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",),
+        "paus"    => array("ás", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k",),
+        "copas"   => array("ás", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k",),
+        "espadas" => array("ás", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k",),
+        "ouro"    => array("ás", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k",),
 
     ];
+
+    $naipes = array_keys($baralho_nome); //se lembra que eu queria uma função que pegasse o nome do 'indice' de um array associativo? estáfuncção faz isso e retorna numa variavel de formato array, em que a primeira posição é o nome do primeiro associativo, o segundo o segundo nome e assim vai...
+
+    $baralho_indice = [];
+
+
+
+
+    
+    $i = 0;
+
+    foreach ($baralho_nome as $indice1 => $naipe) 
+    {
+
+        foreach ($naipe as $indice2 => $nome) 
+        {
+
+            $carta = new Carta();
+
+            $carta->setNumero($i + 1);
+            switch ($i) 
+            {
+                case $i < 13:
+                  
+                    $carta->setNome($nome . " " . $naipes[0]);
+
+                break;
+
+                case $i >= 13 and $i < 26:
+
+                    $carta->setNome($nome . " " . $naipes[1]);
+
+                break;
+
+                case $i >=28 and $i < 39:
+
+                    $carta->setNome($nome . " " . $naipes[2]);
+
+                break;
+
+                case $i >=39:
+
+                    $carta->setNome($nome . " " . $naipes[3]);
+
+                break;
+            }
+            
+            array_push($baralho_indice, $carta);
+
+            $i++;
+
+        }
+
+    }
+
+    foreach ($baralho_indice as $carta) 
+    {
+        print("Número: " . $carta->getNumero() . " - Nome: " . $carta->getNome() . "\n");
+    }
+
+    sleep(1000);
+
 
     do
     {
