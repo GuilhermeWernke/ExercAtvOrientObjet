@@ -19,7 +19,16 @@
         // __toString
         public function __toString() 
         {
-            return "{$this->nome} Naipe: {$this->naipe} Número: {$this->numero}";
+
+            if($this->numero < 10)
+            {
+                return ("║          Índice:  "  . $this->numero . "           Nome: ". $this->nome . "           Naipe: " . $this->naipe . "           ║");
+            }
+            else if ($this->numero >= 10)
+            {
+                return ("║          Índice: "  . $this->numero . "           Nome: ". $this->nome . "           Naipe: " . $this->naipe . "           ║");
+            }
+
         }
 
         // GETS & SETS
@@ -90,10 +99,10 @@
         $nomes = 
         [
 
-            "  paus " => array("ás", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "10", "j ", "q ", "k ",),
-            " copas " => array("ás", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "10", "j ", "q ", "k ",),
-            "espadas" => array("ás", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "10", "j ", "q ", "k ",),
-            "  ouro " => array("ás", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "10", "j ", "q ", "k ",),
+            "  paus " => array("Ás", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "10", "J ", "Q ", "K ",),
+            " copas " => array("Ás", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "10", "J ", "Q ", "K ",),
+            "espadas" => array("Ás", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "10", "J ", "Q ", "K ",),
+            "  ouro " => array("Ás", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "10", "J ", "Q ", "K ",),
     
         ];
     
@@ -101,7 +110,7 @@
         foreach ($nomes as $naipe => $cartas) 
         {
             
-            foreach ($cartas as $indice => $nome) 
+            foreach ($cartas as $nome) 
             {
 
                 $baralho[] = new Carta($i + 1, $nome, $naipe); 
@@ -126,8 +135,6 @@
         {
 
             print($carta . "\n");
-            sleep(5);
-            system('clear');
 
         }
 
@@ -145,8 +152,8 @@
 
         $tentativas = 0;
         $pontuacao = 100; 
-        $maxPontuacao = 100;
 
+        system('clear');
         print("Bem-vindo ao jogo de adivinhação de cartas!\n");
         print("Você deve adivinhar qual carta foi sorteada!\n");
         sleep(5);
@@ -155,13 +162,16 @@
         while (true) 
         {
 
-            
-            print("\nCartas disponíveis:\n");
+            print("╔═══════════════════════════════════════════════════════════════════════════╗\n");
+            print("║                           Cartas disponíveis:                             ║\n");
+            print("╠═══════════════════════════════════════════════════════════════════════════╣\n");
             exibirBaralho($baralho);
+            print("╠═══════════════════════════════════════════════════════════════════════════╣\n");
+            print("║ Escolha uma carta (o indice que varia de 1-52) ou digite 0 para desistir: ║\n");
+            print("╚═══════════════════════════════════════════════════════════════════════════╝\n");
+            print($cartaSorteada . "\n");
 
-            $escolha = readline("Escolha uma carta (o indice que varia de 1-52) ou digite 0 para desistir: ");
-            sleep(5);
-            system('clear');
+            $escolha = readline();
             
             if ($escolha == 0) 
             {
@@ -181,40 +191,33 @@
 
                 if ($baralho[$escolha] == $cartaSorteada) 
                 {
-
-                    system('clear');
-                    print("Parabéns! Você adivinhou a carta correta: " . $cartaSorteada . "\n");
-                    print("Tentativas: $tentativas\n");
-                    print("Sua pontuação é: " . $pontuacao . " pontos\n");
+                    print("╔═══════════════════════════════════════════════════════════════════════════╗\n");
+                    print("║                 Parabéns! Você adivinhou a carta correta:                 ║\n");
+                    print($cartaSorteada . "\n");
+                    print("║                               Tentativas: $tentativas                               ║\n");
+                    print("║                         Sua pontuação é: $pontuacao pontos                        ║\n");
+                    print("╚═══════════════════════════════════════════════════════════════════════════╝\n");
                     sleep(5);
+                    system('clear');
                     break;
 
                 }
                 
-                else if ($escolha > $cartaSorteada)
+                else if ($escolha > $cartaSorteada->getNumero())
                 {
 
-                    print("Carta incorreta! A Carta Sorteada tem um indice menor! Tente novamente.\n");
-                    system('clear');
+                    print("Carta incorreta! A Carta Sorteada tem um índice menor! Tente novamente.\n");
                     sleep(5);
+                    system('clear');
                     $pontuacao -= 10; 
 
                 }
 
-                else if ($escolha < $cartaSorteada)
+                else if ($escolha < $cartaSorteada->getNumero())
                 {
 
-                    print("Carta incorreta! A Carta Sorteada tem um indice maior! Tente novamente.\n");
+                    print("Carta incorreta! A Carta Sorteada tem um índice maior! Tente novamente.\n");
                     $pontuacao -= 10; 
-                    sleep(5);
-                    system('clear');
-
-                }
-
-                else
-                {
-
-                    print("Você leu o enunciado? o indice tem que ser de 1-52 animal! Tente novamente.\n");
                     sleep(5);
                     system('clear');
 
@@ -223,7 +226,11 @@
                 if ($pontuacao <= 0) 
                 {
                     
-                    print("Você atingiu a pontuação mínima. A carta sorteada era: " . $cartaSorteada . "\n");
+                    print(" Você atingiu a pontuação mínima. A carta sorteada era: " . $cartaSorteada . "\n");
+                    print("╔═══════════════════════════════════════════════════════════════════════════╗\n");
+                    print("║          Você atingiu a pontuação mínima. A carta sorteada era:           ║\n");
+                    print($cartaSorteada . "\n");
+                    print("╚═══════════════════════════════════════════════════════════════════════════╝\n");
                     sleep(5);
                     system('clear');
                     break;
@@ -231,10 +238,10 @@
                 }
             }
 
-            else 
+            else
             {
 
-                print("Escolha inválida! Tente novamente.\n");
+                print("Você leu o enunciado? o indice tem que ser de 1-52 animal! Tente novamente.\n");
                 sleep(5);
                 system('clear');
 
@@ -242,7 +249,6 @@
         }        
     }
 
-    // Iniciar o jogo
     jogarAdivinhacao();
 
 ?>
