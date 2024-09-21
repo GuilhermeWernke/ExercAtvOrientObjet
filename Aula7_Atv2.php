@@ -1,38 +1,33 @@
 <?php
 
-    class Carta
+    class Carta 
     {
 
         // Atributos
+        private $numero;
+        private $nome;
+        private $naipe;
 
-        private string $nome; // nome da carta ex "Ás Copas"
-        private int $numero; // indice
+        // Construtor
+        public function __construct($numero, $nome, $naipe) 
+        {
+            $this->numero = $numero;
+            $this->nome = $nome;
+            $this->naipe = $naipe;
+        }
 
+        // __toString
+        public function __toString() 
+        {
+            return "{$this->nome} Naipe: {$this->naipe} Número: {$this->numero}";
+        }
 
         // GETS & SETS
-        
-        /**
-         * Get the value of nome
-         */
-        public function getNome(): string
-        {
-                return $this->nome;
-        }
-
-        /**
-         * Set the value of nome
-         */
-        public function setNome(string $nome): self
-        {
-                $this->nome = $nome;
-
-                return $this;
-        }
 
         /**
          * Get the value of numero
          */
-        public function getNumero(): int
+        public function getNumero()
         {
                 return $this->numero;
         }
@@ -40,225 +35,214 @@
         /**
          * Set the value of numero
          */
-        public function setNumero(float $numero): self
+        public function setNumero($numero): self
         {
                 $this->numero = $numero;
 
                 return $this;
-        }        
+        }
 
+        /**
+         * Get the value of nome
+         */
+        public function getNome()
+        {
+                return $this->nome;
+        }
+
+        /**
+         * Set the value of nome
+         */
+        public function setNome($nome): self
+        {
+                $this->nome = $nome;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of naipe
+         */
+        public function getNaipe()
+        {
+                return $this->naipe;
+        }
+
+        /**
+         * Set the value of naipe
+         */
+        public function setNaipe($naipe): self
+        {
+                $this->naipe = $naipe;
+
+                return $this;
+        }
     }
 
 
 
 
+    function criarBaralho() 
+    {
 
-    $baralho_nome = 
-    [
+        $i = 0;
+        $baralho = [];
+        $nomes = 
+        [
 
-        "paus"    => array("ás", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k",),
-        "copas"   => array("ás", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k",),
-        "espadas" => array("ás", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k",),
-        "ouro"    => array("ás", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k",),
-
-    ];
-
-    $naipes = array_keys($baralho_nome); //se lembra que eu queria uma função que pegasse o nome do 'indice' de um array associativo? estáfuncção faz isso e retorna numa variavel de formato array, em que a primeira posição é o nome do primeiro associativo, o segundo o segundo nome e assim vai...
-
-    $baralho_indice = [];
-
-
-
-
+            "  paus " => array("ás", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "10", "j ", "q ", "k ",),
+            " copas " => array("ás", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "10", "j ", "q ", "k ",),
+            "espadas" => array("ás", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "10", "j ", "q ", "k ",),
+            "  ouro " => array("ás", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "10", "j ", "q ", "k ",),
     
-    $i = 0;
-
-    foreach ($baralho_nome as $indice1 => $naipe) 
-    {
-
-        foreach ($naipe as $indice2 => $nome) 
+        ];
+    
+        
+        foreach ($nomes as $naipe => $cartas) 
         {
-
-            $carta = new Carta();
-
-            $carta->setNumero($i + 1);
-            switch ($i) 
+            
+            foreach ($cartas as $indice => $nome) 
             {
-                case $i < 13:
-                  
-                    $carta->setNome($nome . " " . $naipes[0]);
 
-                break;
+                $baralho[] = new Carta($i + 1, $nome, $naipe); 
+                $i++;
 
-                case $i >= 13 and $i < 26:
-
-                    $carta->setNome($nome . " " . $naipes[1]);
-
-                break;
-
-                case $i >=28 and $i < 39:
-
-                    $carta->setNome($nome . " " . $naipes[2]);
-
-                break;
-
-                case $i >=39:
-
-                    $carta->setNome($nome . " " . $naipes[3]);
-
-                break;
             }
-            
-            array_push($baralho_indice, $carta);
-
-            $i++;
 
         }
 
+        return $baralho;
+
     }
 
-    foreach ($baralho_indice as $carta) 
+
+
+
+
+    function exibirBaralho($baralho) 
     {
-        print("Número: " . $carta->getNumero() . " - Nome: " . $carta->getNome() . "\n");
-    }
 
-    sleep(1000);
-
-
-    do
-    {
-        system('clear');
-        print("╔══════════════════════════════════════════════╗ \n");
-        print("║           O que você quer fazer:             ║ \n");
-        print("╠══════════════════════════════════════════════╣ \n");
-        print("║              Escolha uma opção:              ║ \n");
-        print("║                                              ║ \n");
-        print("║             1- Adicionar Receita             ║ \n");
-        print("║                                              ║ \n");
-        print("║             2- Adicionar Despesa             ║ \n");
-        print("║                                              ║ \n");
-        print("║               3- Listar Receita              ║ \n");
-        print("║                                              ║ \n");
-        print("║               4- Listar Despesa              ║ \n");
-        print("║                                              ║ \n");
-        print("║                 5- Sumarizar                 ║ \n");
-        print("║                                              ║ \n");
-        print("║                0- Sair/Voltar                ║ \n");
-        print("╚══════════════════════════════════════════════╝ \n");
-        $opcao = readline("\n\n");
-
-        switch ($opcao) 
+        foreach ($baralho as $carta) 
         {
 
-            case 1:
-
-                $receita = new Receita;
-
-                system('clear');
-                $receita->setValor(readline("Informe sua nova receita no padrão (...x.xx): \n\n"));
-
-                system('clear');
-                $receita->setDescricao(readline("Informe a descrição de sua nova receita: \n\n"));
-
-                array_push($receitas, $receita);
-                
-            break;
-
-            case 2:
-
-                $despesa = new Despesa;
-
-                system('clear');
-                $despesa->setValor(readline("Informe sua nova despesa no padrão (...x.xx): \n\n"));
-
-                system('clear');
-                $despesa->setDescricao(readline("Informe a descrição de sua nova despesa: \n\n"));
-
-                array_push($despesas, $despesa);
-
-            break;
-
-            case 3:
-
-                system('clear');
-                print("----------Lista Receita----------\n");
-                foreach($receitas as $item)
-                {
-                    $i = 0;
-                    
-                    print("A receita de número " . $i +1 . " foi de $" . $item->getValor() . " e foi recebido através de ". $item->getDescricao() . "\n");
-                    $i++;
-
-                }
-
-                sleep(4);
-
-            break;
-
-            case 4:
-               
-                system('clear');
-                print("----------Lista Despesa----------\n");
-                foreach($despesas as $item)
-                {
-                    $i = 0;
-                    
-                    print("A receita de número " . $i +1 . " foi de $" . $item->getValor() . " e foi gasto através de ". $item->getDescricao() . "\n");
-                    $i++;
-
-                }
-
-                sleep(4);
-                
-            break;
-
-            case 5:
-            
-                system('clear');
-                print("----------Saldo----------\n");
-
-                $total_receitas = 0;
-                $total_despesas = 0;
-                $saldo = 0;
-
-                foreach($receitas as $item)
-                {
-                                        
-                    $total_receitas += $item->getValor();
-
-                }
-
-                foreach($despesas as $item)
-                {
-                                        
-                    $total_despesas += $item->getValor();
-
-                }
-
-                $saldo = $total_receitas - $total_despesas;
-
-                print("Saldo: $" . $saldo . "\n");
-                print("Total de receitas: $" . $total_receitas . "\n");
-                print("Total de despesas: $" . $total_despesas . "\n");
-
-                sleep(4);
-            
-            break;
-
-            case 0:
-
-                system('clear');
-                return false;
-                
-            break;
-            
-            default:
-
-                print("O valor que você informou não existe! \n\n");
-
-            break;
+            print($carta . "\n");
+            sleep(5);
+            system('clear');
 
         }
-    }while(true)
+
+    }
+
+
+
+
+
+    function jogarAdivinhacao() 
+    {
+
+        $baralho = criarBaralho(); 
+        $cartaSorteada = $baralho[array_rand($baralho)]; 
+
+        $tentativas = 0;
+        $pontuacao = 100; 
+        $maxPontuacao = 100;
+
+        print("Bem-vindo ao jogo de adivinhação de cartas!\n");
+        print("Você deve adivinhar qual carta foi sorteada!\n");
+        sleep(5);
+        system('clear');
+
+        while (true) 
+        {
+
+            
+            print("\nCartas disponíveis:\n");
+            exibirBaralho($baralho);
+
+            $escolha = readline("Escolha uma carta (o indice que varia de 1-52) ou digite 0 para desistir: ");
+            sleep(5);
+            system('clear');
+            
+            if ($escolha == 0) 
+            {
+
+                print("Arregão, a carta era: " . $cartaSorteada . "\n");
+                sleep(5);
+                system('clear');
+                break;
+
+            }
+
+            $escolha = $escolha - 1;
+
+            if ($escolha >= 0 and $escolha < count($baralho)) 
+            {
+                $tentativas++;
+
+                if ($baralho[$escolha] == $cartaSorteada) 
+                {
+
+                    system('clear');
+                    print("Parabéns! Você adivinhou a carta correta: " . $cartaSorteada . "\n");
+                    print("Tentativas: $tentativas\n");
+                    print("Sua pontuação é: " . $pontuacao . " pontos\n");
+                    sleep(5);
+                    break;
+
+                }
+                
+                else if ($escolha > $cartaSorteada)
+                {
+
+                    print("Carta incorreta! A Carta Sorteada tem um indice menor! Tente novamente.\n");
+                    system('clear');
+                    sleep(5);
+                    $pontuacao -= 10; 
+
+                }
+
+                else if ($escolha < $cartaSorteada)
+                {
+
+                    print("Carta incorreta! A Carta Sorteada tem um indice maior! Tente novamente.\n");
+                    $pontuacao -= 10; 
+                    sleep(5);
+                    system('clear');
+
+                }
+
+                else
+                {
+
+                    print("Você leu o enunciado? o indice tem que ser de 1-52 animal! Tente novamente.\n");
+                    sleep(5);
+                    system('clear');
+
+                }
+                
+                if ($pontuacao <= 0) 
+                {
+                    
+                    print("Você atingiu a pontuação mínima. A carta sorteada era: " . $cartaSorteada . "\n");
+                    sleep(5);
+                    system('clear');
+                    break;
+
+                }
+            }
+
+            else 
+            {
+
+                print("Escolha inválida! Tente novamente.\n");
+                sleep(5);
+                system('clear');
+
+            }
+        }        
+    }
+
+    // Iniciar o jogo
+    jogarAdivinhacao();
 
 ?>
