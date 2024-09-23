@@ -226,7 +226,6 @@
                 if ($pontuacao <= 0) 
                 {
                     
-                    print(" Você atingiu a pontuação mínima. A carta sorteada era: " . $cartaSorteada . "\n");
                     print("╔═══════════════════════════════════════════════════════════════════════════╗\n");
                     print("║          Você atingiu a pontuação mínima. A carta sorteada era:           ║\n");
                     print($cartaSorteada . "\n");
