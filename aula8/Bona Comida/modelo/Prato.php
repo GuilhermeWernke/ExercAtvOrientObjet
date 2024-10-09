@@ -10,7 +10,7 @@
         
         // Construtor
         
-        function __construct(float $valor,  string $nome, int $num)
+        function __construct(int $num,  string $nome, float $valor)
         {
             $this->num = $num;
             $this->nome = $nome;
